@@ -1,0 +1,170 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@import "./assets/font-awesome-4.7.0/css/font-awesome.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.space-mono-regular {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .space-mono-bold {
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .space-mono-regular-italic {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .space-mono-bold-italic {
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .as-split-gutter {
+    background-color: #000 !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    // -webkit-border-radius: 10px;
+    // border-radius: 10px;
+    background: rgba(78,80,80,0.8); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+.background-color {
+    background-color: #121212;
+}
+
+.menu-color {
+    background-color: #181818;
+}
+
+.top-gradient {
+    background-color: #404040;
+}
+
+.bottom-gradient {
+    background-color: #282828;
+}
+
+.primary-text {
+    color: #fff;
+}
+
+.secondary-text {
+    color: #b3b3b3;
+}
+
+.p-menubar, .p-submenu-list {
+    border-radius: 0;
+    padding: .1rem;
+    background-color: #121212;
+    border:none;
+    border-bottom: 1px solid #000;
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: small;
+}
+
+.p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-content .p-menuitem-link {
+    padding: .5rem .75rem;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+html,body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    font-size: small;
+    background-color: #121212;
+}
+
+.p-splitter {
+    background: none;
+    border-radius: 0;
+}
+
+.p-tabview, .p-tabview-nav, .p-tabview-panels, .p-tabview-panel, .p-tabview-panels .p-tabview-panel {
+    background: none;
+    border-radius: 0;
+    z-index: 1000;
+    font-size: small;
+    .p-tabview-nav-link {
+        //z-index: 1000;
+        background: none;
+        //border-radius: 0;
+    }
+}
+
+.editor-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.canvas-wrapper {
+    width: 97%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1; 
+}
+
+.canvas-toolbar {
+    width: 3%;
+    height: 100%;
+    padding-right: 1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    color:black;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.p-tabview, .p-tabview-panels {
+    height: 100%;
+    padding: 0;
+    .p-tabview-panel {
+        height: 100%;
+    }
+}
+
+footer {
+    background: black;
+    padding: .5rem;
+}

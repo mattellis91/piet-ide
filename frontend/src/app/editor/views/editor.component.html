@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="split-example" style="height: 100%;">
+      <as-split direction="horizontal" restrictMove="true" [useTransition]="true" [gutterSize]="3">
+        <as-split-area size="20">
+          <as-split direction="vertical" restrictMove="true" [gutterSize]="3">
+            <as-split-area size="75">
+                
+                <app-palete-panel></app-palete-panel>
+            </as-split-area>
+            <as-split-area size="25">
+                <app-color-picker-panel></app-color-picker-panel>
+            </as-split-area>
+          </as-split>
+        </as-split-area>
+        <as-split-area size="80">
+          <as-split direction="vertical" restrictMove="true" [gutterSize]="3">
+            <as-split-area size="75">
+                <app-canvas-panel></app-canvas-panel>
+            </as-split-area>
+            <as-split-area size="25">
+              <div style="height: 100%; background-color: #181818;"></div>
+                <!-- <p-tabView>
+                    <p-tabPanel header="Input">
+                        <p>
+                            Lorem ipsum dolor sit amet...
+                        </p>
+                    </p-tabPanel>
+                    <p-tabPanel header="Output">
+                        <p>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+                        </p>
+                    </p-tabPanel>
+                </p-tabView> -->
+            </as-split-area>
+          </as-split>
+        </as-split-area>
+      </as-split>  
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "piet-ide",
+  "outputfilename": "piet-ide",
+  "frontend:build": "npx ng build",
+  "frontend:install": "npm install",
+  "frontend:dev:watcher": "npx ng serve",
+  "frontend:dev:serverUrl": "http://localhost:4200",
+  "author": {
+    "name": "mattellis91",
+    "email": "mathew.ellis2@griffithuni.edu.au"
+  }
+}
