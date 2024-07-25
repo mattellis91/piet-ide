@@ -1,0 +1,38 @@
+<div class="container">
+  <div style="padding: 1rem;">
+    <button pButton style="margin-right: 1rem;">New File</button>
+    <button pButton>Open File</button>
+  </div>
+  <div style="height: 100%; border: 1px solid #181818;">
+    <as-split direction="horizontal" restrictMove="true" [useTransition]="true" [gutterSize]="3">
+      <as-split-area size="40">
+        <as-split direction="vertical" restrictMove="true" [gutterSize]="3">
+          <as-split-area size="60">
+            <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Recent Files</div>
+          </as-split-area>
+          <as-split-area size="40">
+            <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Recent Folders</div>
+          </as-split-area>
+        </as-split>
+      </as-split-area>
+      <as-split-area size="60">
+        <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Help</div>
+      </as-split-area>
+    </as-split>  
+  </div>
+</div>
+<!-- <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-5">Update your information.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+      <label for="username" class="font-semibold w-6rem">Username</label>
+      <input pInputText id="username" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex align-items-center gap-3 mb-5">
+      <label for="email" class="font-semibold w-6rem">Email</label>
+      <input pInputText id="email" class="flex-auto" autocomplete="off" />
+  </div>
+  <div class="flex justify-content-end gap-2">
+      <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
+      <p-button label="Save" (onClick)="visible = false" />
+  </div>
+</p-dialog>   -->

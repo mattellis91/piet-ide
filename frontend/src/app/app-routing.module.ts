@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {path: '', loadChildren: () => import('./editor/editor.module').then(m => m.EditorModule)},
+  {path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
+  {path: 'editor', loadChildren: () => import('./editor/editor.module').then(m => m.EditorModule)},
 ];
 
 @NgModule({
