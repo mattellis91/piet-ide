@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { EditorService } from '../../services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
+import { Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
 
 
 
@@ -177,7 +178,27 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   }
 
   handleRunInterpreter() {
-    const interpreter = new Interpreter(this.pixels);
+    console.log("HANDLE INTERPRETER")
+    console.log(this.pixels);
+    const imageCanvas = document.createElement('canvas');
+    const imageCanvasCtx = imageCanvas.getContext('2d');
+    imageCanvas.width = this.pixelsWide;
+    imageCanvas.height = this.pixelsHigh;
+    if(!imageCanvasCtx) {
+      return;
+    }
+    for(let i = 0; i < imageCanvas.width; i++) {
+      for(let j = 0; j < imageCanvas.height; j++) {
+        imageCanvasCtx.fillStyle = this.pixels[i][j];
+        imageCanvasCtx?.fillRect(i, j, 1, 1);
+      }
+    }
+    const url = imageCanvas.toDataURL();
+    console.log(url);
+    WriteImage(url);
+
+    // console.log(Greet('test'))
+    // const interpreter = new Interpreter(this.pixels);
   }
 
 }

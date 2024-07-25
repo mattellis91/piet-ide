@@ -3,6 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
+	"github.com/vincent-petithory/dataurl"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -24,4 +28,29 @@ func (a *App) startup(ctx context.Context) {
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+func (a *App) WriteImage(dataUrl string) bool {
+	dataURL, err := dataurl.DecodeString(dataUrl)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	fmt.Printf("content type: %s, data: %s\n", dataURL.MediaType.ContentType(), string(dataURL.Data))
+	if dataURL.ContentType() == "image/png" {
+		path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
+		})
+		if(err != nil) {
+			return false
+		}
+		fmt.Print(path)
+		saveFile, err :=  os.Create(path)
+		if(err != nil) {
+			return false
+		}
+		saveFile.Write(dataURL.Data)
+		return true
+	} else {
+		return false
+	}
 }
