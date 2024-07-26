@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { EditorService } from '../../services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
-import { Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
+import { GetCurrentFile, Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
 
 
 
@@ -21,7 +21,7 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   pixelsHigh = 16;
   pixels:string[][] = [];
   showGrid = true; 
-  pixelWidth = 0;
+  pixelWidth = 20;
   pixelHeight = 0;
   canvasWidth = 0;
   canvasHeight = 0;
@@ -30,23 +30,31 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   dragging = false;
   canvasZoomDelta = 15;
 
+  currentFile: any = undefined;
+
   constructor(private editorService:EditorService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.currentFile = await GetCurrentFile();
+    console.log(this.currentFile);
+    this.pixelsWide = this.currentFile.Width;
+    this.pixelsHigh = this.currentFile.Height;
     this.initGrid();
+    console.log(this.pixelsWide);
+    console.log(this.pixelsHigh);
+    console.log(this.pixels);
   }
 
   ngAfterViewInit() {
+    
     const canvas = this.canvas.nativeElement as HTMLCanvasElement;
     this.ctx = canvas.getContext('2d')! as CanvasRenderingContext2D;
-    this.canvasWidth = 600;
-    this.canvasHeight = 600;
-    canvas.width = this.canvasWidth;
-    canvas.height = this.canvasHeight;
     canvas.style.backgroundColor = 'lightgrey';
     canvas.style.cursor = 'pointer';
-    this.pixelWidth = this.canvasWidth / this.pixelsWide;
-    this.pixelHeight = this.canvasHeight / this.pixelsHigh;
+    this.canvasWidth = this.pixelWidth * this.pixelsWide;
+    this.canvasHeight = this.pixelWidth * this.pixelsHigh;
+    canvas.width = this.canvasWidth;
+    canvas.height = this.canvasHeight;
 
     canvas.onmousemove = (e:MouseEvent) => {
       this.handleMouseMove(e);

@@ -12,6 +12,14 @@ import (
 // App struct
 type App struct {
 	ctx context.Context
+	CurrentFile
+}
+
+type CurrentFile struct {
+	Width  int
+	Height int
+	Name   string
+	Path   string
 }
 
 // NewApp creates a new App application struct
@@ -38,14 +46,13 @@ func (a *App) WriteImage(dataUrl string) bool {
 	}
 	fmt.Printf("content type: %s, data: %s\n", dataURL.MediaType.ContentType(), string(dataURL.Data))
 	if dataURL.ContentType() == "image/png" {
-		path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
-		})
-		if(err != nil) {
+		path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{})
+		if err != nil {
 			return false
 		}
 		fmt.Print(path)
-		saveFile, err :=  os.Create(path)
-		if(err != nil) {
+		saveFile, err := os.Create(path)
+		if err != nil {
 			return false
 		}
 		saveFile.Write(dataURL.Data)
@@ -53,4 +60,12 @@ func (a *App) WriteImage(dataUrl string) bool {
 	} else {
 		return false
 	}
+}
+
+func (a *App) SetCurrentFile(width, height int) {
+	a.CurrentFile = CurrentFile{Width:width, Height:height, Name: "", Path: ""}
+}
+
+func (a *App) GetCurrentFile() CurrentFile {
+	return a.CurrentFile
 }

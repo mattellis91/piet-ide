@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -7,12 +8,20 @@ import { MenuItem } from 'primeng/api';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+    
   items: MenuItem[] | undefined;
+
+  constructor(private router: Router) {
+
+  }
 
     ngOnInit() {
         this.items = [
             {
                 label: 'Home',
+                command: () => {
+                    this.router.navigateByUrl('');
+                }
             },
             {
                 label: 'Features',
