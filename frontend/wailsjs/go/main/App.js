@@ -6,8 +6,24 @@ export function GetCurrentFile() {
   return window['go']['main']['App']['GetCurrentFile']();
 }
 
+export function GetHelp() {
+  return window['go']['main']['App']['GetHelp']();
+}
+
+export function GetRecent() {
+  return window['go']['main']['App']['GetRecent']();
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
+}
+
+export function OpenImage() {
+  return window['go']['main']['App']['OpenImage']();
+}
+
+export function OpenImageFromDefaultFolder() {
+  return window['go']['main']['App']['OpenImageFromDefaultFolder']();
 }
 
 export function SetCurrentFile(arg1, arg2) {

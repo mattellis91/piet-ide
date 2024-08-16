@@ -4,7 +4,15 @@ import {main} from '../models';
 
 export function GetCurrentFile():Promise<main.CurrentFile>;
 
+export function GetHelp():Promise<string>;
+
+export function GetRecent():Promise<string>;
+
 export function Greet(arg1:string):Promise<string>;
+
+export function OpenImage():Promise<string>;
+
+export function OpenImageFromDefaultFolder():Promise<void>;
 
 export function SetCurrentFile(arg1:number,arg2:number):Promise<void>;
 

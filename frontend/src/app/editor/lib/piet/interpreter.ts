@@ -45,28 +45,6 @@ export class Interpreter {
         console.log(this.pixelData)
     }
 
-    run() {
-
-    }
-
-    noOp() {
-        return;
-    }
-
-    push() {
-        this.stack.push(this.blockValue);
-    }
-
-    pop() {
-        if(this.stack.length > 0) {
-            this.blockValue = this.stack.pop()!
-        }
-    }
-
-    matrixToArray(matrix: string[][]) {
-        return matrix.reduce((acc, val) => acc.concat(val), []);
-    }
-
     static setPalletCommands(currentColor:string, commands: Color[]) {
         for(let command of commands) {
             command.action = this.getCommandFromColorChange(currentColor, command.hex.toLowerCase());

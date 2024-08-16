@@ -11,6 +11,9 @@ import { AngularSplitModule } from 'angular-split';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { MarkdownComponent } from 'ngx-markdown';
+
+import { EditorService } from '../shared/services/editor.service';
 
 
 @NgModule({
@@ -26,9 +29,11 @@ import { InputNumberModule } from 'primeng/inputnumber';
     AngularSplitModule,
     DialogModule,
     InputTextModule,
-    InputNumberModule
+    InputNumberModule,
+    MarkdownComponent
   ],
   providers: [
+    EditorService
   ],
 })
 export class HomeModule { }

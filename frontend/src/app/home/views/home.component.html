@@ -1,22 +1,31 @@
 <div class="container">
   <div style="padding: 1rem;">
     <button pButton style="margin-right: 1rem;" (click)="showDialog()">New File</button>
-    <button pButton>Open File</button>
+    <button pButton (click)="openImage()">Open File</button>
   </div>
   <div style="height: 100%; border: 1px solid #181818;">
     <as-split direction="horizontal" restrictMove="true" [useTransition]="true" [gutterSize]="3">
-      <as-split-area size="40">
+      <as-split-area size="45">
         <as-split direction="vertical" restrictMove="true" [gutterSize]="3">
           <as-split-area size="60">
             <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Recent Files</div>
+            <div style="padding:.5rem 1rem; font-family: 'Space Mono', monospace;"*ngFor="let file of recentFiles">
+              {{file}}
+            </div>
           </as-split-area>
           <as-split-area size="40">
             <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Recent Folders</div>
+            <div style="padding:.5rem 1rem; font-family: 'Space Mono', monospace;"*ngFor="let folder of recentFolders">
+              {{folder}}
+            </div>
           </as-split-area>
         </as-split>
       </as-split-area>
-      <as-split-area size="60">
+      <as-split-area size="55">
         <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Help</div>
+        <div style="padding:.5rem 1rem; font-family: 'Space Mono', monospace;" >
+          <!-- <markdown [data]="help"></markdown> -->
+        </div>
       </as-split-area>
     </as-split>  
   </div>

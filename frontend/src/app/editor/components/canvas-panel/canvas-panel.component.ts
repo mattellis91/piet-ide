@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { EditorService } from '../../services/editor.service';
+import { EditorService } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
 import { GetCurrentFile, Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
 
@@ -36,7 +36,11 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.currentFile = await GetCurrentFile();
+
     console.log(this.currentFile);
+
+    console.log(this.editorService);
+
     this.pixelsWide = this.currentFile.Width;
     this.pixelsHigh = this.currentFile.Height;
     this.initGrid();

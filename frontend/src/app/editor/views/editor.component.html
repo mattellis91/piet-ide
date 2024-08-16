@@ -4,7 +4,6 @@
         <as-split-area size="20">
           <as-split direction="vertical" restrictMove="true" [gutterSize]="3">
             <as-split-area size="75">
-                
                 <app-palete-panel></app-palete-panel>
             </as-split-area>
             <as-split-area size="25">
@@ -18,7 +17,9 @@
                 <app-canvas-panel></app-canvas-panel>
             </as-split-area>
             <as-split-area size="25">
-              <div style="height: 100%; background-color: #181818;"></div>
+              <div style="height: 100%; background-color: #181818;">
+                <div style="background-color: #000; padding:.5rem 1rem; font-family: 'Space Mono', monospace; position: sticky; top: 0;">Output</div>
+              </div>
                 <!-- <p-tabView>
                     <p-tabPanel header="Input">
                         <p>

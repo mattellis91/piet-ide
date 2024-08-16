@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditorRoutingModule } from './editor-routing.module';
 
-import { EditorService } from './services/editor.service';
+import { EditorService } from '../shared/services/editor.service';
 
 import { EditorComponent } from './views/editor.component';
 

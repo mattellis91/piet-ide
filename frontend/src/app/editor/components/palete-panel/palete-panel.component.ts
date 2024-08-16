@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EditorService } from '../../services/editor.service';
+import { EditorService } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
 
 
