@@ -33,7 +33,7 @@ import { EditorService } from '../shared/services/editor.service';
     MarkdownComponent
   ],
   providers: [
-    EditorService
+    
   ],
 })
 export class HomeModule { }

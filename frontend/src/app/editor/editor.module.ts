@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditorRoutingModule } from './editor-routing.module';
 
-import { EditorService } from '../shared/services/editor.service';
-
 import { EditorComponent } from './views/editor.component';
 
 import { PaletePanelComponent } from './components/palete-panel/palete-panel.component';
@@ -37,7 +35,6 @@ import { AngularSplitModule } from 'angular-split';
     AngularSplitModule,
   ],
   providers: [
-    EditorService
   ],
 })
 export class EditorModule { }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { EditorService } from '../../../shared/services/editor.service';
+import { CurrentFile, EditorService } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
 import { GetCurrentFile, Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
 
@@ -30,23 +30,16 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   dragging = false;
   canvasZoomDelta = 15;
 
-  currentFile: any = undefined;
+  currentFile: CurrentFile | undefined = undefined;
 
   constructor(private editorService:EditorService) { }
 
   async ngOnInit() {
-    this.currentFile = await GetCurrentFile();
+    this.currentFile = this.editorService.currentFile;
 
-    console.log(this.currentFile);
-
-    console.log(this.editorService);
-
-    this.pixelsWide = this.currentFile.Width;
-    this.pixelsHigh = this.currentFile.Height;
+    this.pixelsWide = this.currentFile!.Width;
+    this.pixelsHigh = this.currentFile!.Height;
     this.initGrid();
-    console.log(this.pixelsWide);
-    console.log(this.pixelsHigh);
-    console.log(this.pixels);
   }
 
   ngAfterViewInit() {
@@ -93,16 +86,25 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
       this.ctx!.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
+    this.pixelWidth = this.canvasWidth / this.pixelsWide;
+    this.pixelHeight = this.canvasHeight / this.pixelsHigh;
+
+    this.canvas.nativeElement.width = this.canvasWidth;
+    this.canvas.nativeElement.height = this.canvasHeight;
+    this.ctx!.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
     window.requestAnimationFrame(() => this.renderLoop());
   }
 
   initGrid() {
-    for (let i = 0; i < this.pixelsWide; i++) {
+    for (let i = 0; i < this.pixelsHigh; i++) {
       this.pixels[i] = [];
-      for (let j = 0; j < this.pixelsHigh; j++) {
-        this.pixels[i][j] = '#fff';
+      for (let j = 0; j < this.pixelsWide; j++) {
+        const currentPix = this.currentFile?.data[i][j]
+        this.pixels[i][j] = currentPix ? this.editorService.rgbToHex(currentPix.r, currentPix.g, currentPix.b).toLowerCase() : '#fff';
       }
     }
+
   }
 
   renderLoop() {
@@ -117,10 +119,10 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
       this.drawPixel(this.hoverPixel, this.editorService.selectedColor);
     }
 
-    for(let i = 0; i < this.pixelsWide; i++) {
-      for(let j = 0; j < this.pixelsHigh; j++) {
-        if(i !== this.hoverPixel.x || j !== this.hoverPixel.y) {
-          this.drawPixel({x: i, y: j});
+    for(let i = 0; i < this.pixelsHigh; i++) {
+      for(let j = 0; j < this.pixelsWide; j++) {
+        if(j !== this.hoverPixel.x || i !== this.hoverPixel.y) {
+          this.drawPixel({x: j, y: i});
         }
       }
     }
@@ -154,7 +156,7 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     const y = e.clientY - r.top;
     this.hoverPixel = this.mouseToPixel(x, y);
     if(this.dragging) {
-      this.pixels[this.hoverPixel.x][this.hoverPixel.y] = this.editorService.selectedColor ?? '#000';
+      this.pixels[this.hoverPixel.y][this.hoverPixel.x] = this.editorService.selectedColor ?? '#000';
       this.drawPixel(this.hoverPixel);
     }
   }
@@ -164,7 +166,7 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     const x = e.clientX - r.left;
     const y = e.clientY - r.top;
     const pixelLocation = this.mouseToPixel(x, y);
-    this.pixels[pixelLocation.x][pixelLocation.y] = this.editorService.selectedColor ?? '#000';
+    this.pixels[pixelLocation.y][pixelLocation.x] = this.editorService.selectedColor ?? '#000';
     this.drawPixel(pixelLocation);
     this.dragging = true;
   }
@@ -179,7 +181,7 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
 
   drawPixel(pixelLocation:PixelLocation, color?:string) {
     if (!this.ctx) { return; }
-    this.ctx.fillStyle = color ?? this.pixels[pixelLocation.x][pixelLocation.y];
+    this.ctx.fillStyle = color ?? this.pixels[pixelLocation.y][pixelLocation.x];
     this.ctx.fillRect(pixelLocation.x * this.pixelWidth, pixelLocation.y * this.pixelHeight, this.pixelWidth, this.pixelHeight);
   }
 
@@ -199,10 +201,10 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     if(!imageCanvasCtx) {
       return;
     }
-    for(let i = 0; i < imageCanvas.width; i++) {
-      for(let j = 0; j < imageCanvas.height; j++) {
+    for(let i = 0; i < imageCanvas.height; i++) {
+      for(let j = 0; j < imageCanvas.width; j++) {
         imageCanvasCtx.fillStyle = this.pixels[i][j];
-        imageCanvasCtx?.fillRect(i, j, 1, 1);
+        imageCanvasCtx?.fillRect(j, i, 1, 1);
       }
     }
     const url = imageCanvas.toDataURL();

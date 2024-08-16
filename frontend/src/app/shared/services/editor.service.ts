@@ -4,6 +4,8 @@ export interface CurrentFile {
   dirty: boolean
   data: Pixel[][]
   path:string
+  Width: number
+  Height: number
 }
 
 export interface Pixel {

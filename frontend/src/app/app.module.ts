@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { EditorModule } from './editor/editor.module';
 
 import { MenubarModule } from 'primeng/menubar';
+import { EditorService } from './shared/services/editor.service';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { MenubarModule } from 'primeng/menubar';
     EditorModule,
     MenubarModule
   ],
-  providers: [],
+  providers: [EditorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

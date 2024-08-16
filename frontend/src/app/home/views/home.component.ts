@@ -39,7 +39,6 @@ export class HomeComponent implements OnInit{
 
     GetHelp().then((res) => {
       this.help = res;
-      console.log(this.help)
     })
   }
 
@@ -79,7 +78,9 @@ export class HomeComponent implements OnInit{
       this.editorService.currentFile = {
         dirty: false,
         path: "",
-        data: data.pixels
+        data: data.pixels,
+        Width: data.width,
+        Height: data.height
       }
 
       this.router.navigateByUrl('/editor'); 
@@ -100,10 +101,10 @@ export class HomeComponent implements OnInit{
     for(let i = 0; i < data.data.length; i+= 4) {
 
       let p = {
-        s: data.data[i],
-        r: data.data[i + 1],
-        g: data.data[i + 2],
-        b: data.data[i + 3]
+        r: data.data[i],
+        g: data.data[i + 1],
+        b: data.data[i + 2],
+        s: data.data[i + 3]
       }
 
       if(col === data.width) {
