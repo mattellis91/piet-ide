@@ -53,7 +53,29 @@ export class HomeComponent implements OnInit{
   submitDialog() {
     console.log(this.newFileWidth);
     console.log(this.newFileHeight);
-    SetCurrentFile(Number(this.newFileWidth), Number(this.newFileHeight));
+
+    const data:Pixel[][] = [];
+
+    for(let i = 0; i < this.newFileHeight; i++) {
+      data[i] = [];
+      for(let j = 0; j < this.newFileWidth; j++) {
+        data[i].push({
+          s: 0,
+          r: 0,
+          g: 0,
+          b: 0,
+        });
+      }
+    }
+
+    this.editorService.currentFile = {
+      dirty: false,
+      path: "",
+      Width: this.newFileWidth,
+      Height: this.newFileHeight,
+      data: data
+    }
+
     this.router.navigateByUrl('/editor'); 
   }
 

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { CurrentFile, EditorService } from '../../../shared/services/editor.service';
+import { CurrentFile, EditorService, Pixel } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
-import { GetCurrentFile, Greet, WriteImage } from '../../../../../wailsjs/go/main/App';
+import { GetCurrentFile, Greet, WriteImage, WriteImageAndRun } from '../../../../../wailsjs/go/main/App';
 
 
 
@@ -39,6 +39,10 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
 
     this.pixelsWide = this.currentFile!.Width;
     this.pixelsHigh = this.currentFile!.Height;
+
+    console.log(this.pixelsWide);
+    console.log(this.pixelsHigh)
+
     this.initGrid();
   }
 
@@ -101,15 +105,20 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
       this.pixels[i] = [];
       for (let j = 0; j < this.pixelsWide; j++) {
         const currentPix = this.currentFile?.data[i][j]
-        this.pixels[i][j] = currentPix ? this.editorService.rgbToHex(currentPix.r, currentPix.g, currentPix.b).toLowerCase() : '#fff';
+        this.pixels[i][j] = currentPix && !this.isNullPixel(currentPix) ? this.editorService.rgbToHex(currentPix.r, currentPix.g, currentPix.b).toLowerCase() : '#fff';
       }
     }
 
+    console.log(this.pixels)
   }
 
   renderLoop() {
     this.render();
     window.requestAnimationFrame(() => this.renderLoop());
+  }
+
+  isNullPixel(pixel:Pixel) {
+    return pixel.s === 0 && pixel.r === 0 && pixel.g === 0 && pixel.b === 0;
   }
 
   render() {
@@ -209,7 +218,7 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     }
     const url = imageCanvas.toDataURL();
     console.log(url);
-    WriteImage(url);
+    WriteImageAndRun(url);
 
     // console.log(Greet('test'))
     // const interpreter = new Interpreter(this.pixels);

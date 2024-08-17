@@ -12,6 +12,8 @@ import (
 
 	"github.com/vincent-petithory/dataurl"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+
+	piet "piet-ide/piet"
 )
 
 // App struct
@@ -43,27 +45,38 @@ func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
 
-func (a *App) WriteImage(dataUrl string) bool {
+func (a *App) WriteImageAndRun(dataUrl string) bool {
+	path := a.WriteImage(dataUrl)
+	if(path != "") {
+		im := openImageFromPath(path)
+		in := piet.New(im)
+		in.Run()
+	}
+
+	return true
+}
+
+func (a *App) WriteImage(dataUrl string) string {
 	dataURL, err := dataurl.DecodeString(dataUrl)
 	if err != nil {
 		fmt.Println(err)
-		return false
+		return ""
 	}
 	fmt.Printf("content type: %s, data: %s\n", dataURL.MediaType.ContentType(), string(dataURL.Data))
 	if dataURL.ContentType() == "image/png" {
 		path, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{})
 		if err != nil {
-			return false
+			return ""
 		}
 		fmt.Print(path)
 		saveFile, err := os.Create(path)
 		if err != nil {
-			return false
+			return ""
 		}
 		saveFile.Write(dataURL.Data)
-		return true
+		return path
 	} else {
-		return false
+		return ""
 	}
 }
 
@@ -88,6 +101,18 @@ func (a *App) OpenImage() string {
 	buf := new(bytes.Buffer)
 	png.Encode(buf, im)
 	return dataurl.EncodeBytes(buf.Bytes())
+}
+
+func openImageFromPath(path string) image.Image{
+	f, err := os.Open(path)
+
+	if err != nil {
+		return nil
+	}
+
+	im, _, err := image.Decode(f)
+
+	return im
 }
 
 func (a *App) OpenImageFromDefaultFolder() {

@@ -33,3 +33,7 @@ export function SetCurrentFile(arg1, arg2) {
 export function WriteImage(arg1) {
   return window['go']['main']['App']['WriteImage'](arg1);
 }
+
+export function WriteImageAndRun(arg1) {
+  return window['go']['main']['App']['WriteImageAndRun'](arg1);
+}

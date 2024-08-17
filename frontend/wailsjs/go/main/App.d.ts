@@ -16,4 +16,6 @@ export function OpenImageFromDefaultFolder():Promise<void>;
 
 export function SetCurrentFile(arg1:number,arg2:number):Promise<void>;
 
-export function WriteImage(arg1:string):Promise<boolean>;
+export function WriteImage(arg1:string):Promise<string>;
+
+export function WriteImageAndRun(arg1:string):Promise<boolean>;
