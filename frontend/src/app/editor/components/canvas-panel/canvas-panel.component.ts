@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CurrentFile, EditorService, Pixel } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
 import { GetCurrentFile, Greet, WriteImage, WriteImageAndRun } from '../../../../../wailsjs/go/main/App';
+import { EventsOn } from '../../../../../wailsjs/runtime/runtime';
 
 
 
@@ -44,6 +45,9 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     console.log(this.pixelsHigh)
 
     this.initGrid();
+
+    
+    EventsOn("test", (x) => console.log(x))
   }
 
   ngAfterViewInit() {

@@ -2,6 +2,7 @@ package piet
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"image"
 	"image/color"
@@ -22,6 +23,8 @@ dp DpDir
 cc CCDir
 pos image.Point
 Logger *log.Logger
+ctx context.Context
+eventFuncs map[string]func(string)
 }
 
 func (in *Interpreter) Run() {
@@ -66,7 +69,8 @@ if in.canMove() {
 return in.recovery()
 }
 
-func New(img image.Image) Interpreter {
+func New(img image.Image, eventFuncs map[string]func(string)) Interpreter {
+
 return Interpreter{
 	Img:    img,
 	Writer: os.Stdout,
@@ -75,6 +79,7 @@ return Interpreter{
 	cc:     left,
 	pos:    img.Bounds().Min,
 	Logger: log.New(ioutil.Discard, "", log.Lshortfile),
+	eventFuncs: eventFuncs,
 }
 }
 
@@ -328,9 +333,19 @@ in.pos = *newPos
 }
 
 func (i *Interpreter) outNum() {
-io.WriteString(i, strconv.Itoa(i.pop()))
+	n := strconv.Itoa(i.pop())
+	io.WriteString(i, n)
+	ev := i.eventFuncs["numOut"]
+	if ev != nil {
+		ev(n)
+	}
 }
 
 func (i *Interpreter) outChar() {
-i.Write([]byte{byte(i.pop())})
+	c := []byte{byte(i.pop())}
+	i.Write(c)
+	ev := i.eventFuncs["charOut"]
+	if ev != nil {
+		ev(string(c))
+	}
 }

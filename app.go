@@ -45,11 +45,25 @@ func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
 
+func (a *App) CharOut(val string) {
+	runtime.EventsEmit(a.ctx, "charOut", val)
+}
+
+func (a *App) NumOut(val string) {
+	runtime.EventsEmit(a.ctx, "numOut", val)
+}
+
 func (a *App) WriteImageAndRun(dataUrl string) bool {
 	path := a.WriteImage(dataUrl)
+
+	eventFuncs := map[string]func(string) {
+		"charOut": a.CharOut,
+		"numOut": a.NumOut,
+	}
+
 	if(path != "") {
 		im := openImageFromPath(path)
-		in := piet.New(im)
+		in := piet.New(im, eventFuncs)
 		in.Run()
 	}
 
@@ -74,6 +88,9 @@ func (a *App) WriteImage(dataUrl string) string {
 			return ""
 		}
 		saveFile.Write(dataURL.Data)
+
+		runtime.EventsEmit(a.ctx, "test", "data from event")
+
 		return path
 	} else {
 		return ""

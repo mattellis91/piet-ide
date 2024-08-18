@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GetRecent, SetCurrentFile, GetHelp, OpenImage } from '../../../../wailsjs/go/main/App';
 import { EditorService } from '../../shared/services/editor.service';
 import { Pixel } from "../../shared/services/editor.service"
+import { EventsOn } from '../../../../wailsjs/runtime/runtime';
 
 
 @Component({
@@ -40,6 +41,8 @@ export class HomeComponent implements OnInit{
     GetHelp().then((res) => {
       this.help = res;
     })
+
+
   }
 
   showDialog() {
