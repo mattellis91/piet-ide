@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CurrentFile, EditorService, Pixel } from '../../../shared/services/editor.service';
 import { Interpreter } from '../../lib/piet/interpreter';
-import { GetCurrentFile, Greet, WriteImage, WriteImageAndRun } from '../../../../../wailsjs/go/main/App';
+import { DebugStep, GetCurrentFile, Greet, WriteImage, WriteImageAndDebug, WriteImageAndRun } from '../../../../../wailsjs/go/main/App';
 import { EventsOn } from '../../../../../wailsjs/runtime/runtime';
 
 
@@ -32,6 +32,9 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   canvasZoomDelta = 15;
 
   currentFile: CurrentFile | undefined = undefined;
+  debugging = false;
+
+  debugState: any
 
   constructor(private editorService:EditorService) { }
 
@@ -45,6 +48,11 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     console.log(this.pixelsHigh)
 
     this.initGrid();
+
+    EventsOn("debugStep", (data) => {
+      this.debugState = data;
+      console.log(this.debugState.Pos)
+    });
 
     
     EventsOn("test", (x) => console.log(x))
@@ -135,7 +143,15 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     for(let i = 0; i < this.pixelsHigh; i++) {
       for(let j = 0; j < this.pixelsWide; j++) {
         if(j !== this.hoverPixel.x || i !== this.hoverPixel.y) {
-          this.drawPixel({x: j, y: i});
+
+          let color = undefined;
+          if(this.debugState?.Pos) {
+            if(this.debugState.Pos.X === j && this.debugState.Pos.Y === i) {
+              color = "#fff"
+            }
+          }
+
+          this.drawPixel({x: j, y: i}, color);
         }
       }
     }
@@ -205,7 +221,6 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   }
 
   handleRunInterpreter() {
-    console.log("HANDLE INTERPRETER")
     console.log(this.pixels);
     const imageCanvas = document.createElement('canvas');
     const imageCanvasCtx = imageCanvas.getContext('2d');
@@ -224,8 +239,35 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     console.log(url);
     WriteImageAndRun(url);
 
-    // console.log(Greet('test'))
-    // const interpreter = new Interpreter(this.pixels);
+  }
+
+  async handleDebugInterpreter() {
+    console.log(this.pixels);
+    const imageCanvas = document.createElement('canvas');
+    const imageCanvasCtx = imageCanvas.getContext('2d');
+    imageCanvas.width = this.pixelsWide;
+    imageCanvas.height = this.pixelsHigh;
+    if(!imageCanvasCtx) {
+      return;
+    }
+    for(let i = 0; i < imageCanvas.height; i++) {
+      for(let j = 0; j < imageCanvas.width; j++) {
+        imageCanvasCtx.fillStyle = this.pixels[i][j];
+        imageCanvasCtx?.fillRect(j, i, 1, 1);
+      }
+    }
+    const url = imageCanvas.toDataURL();
+    console.log(url);
+    let x;
+    if(!this.debugging) {
+      x = await WriteImageAndDebug(url)
+      this.debugging = true;
+    } else {
+      x = await DebugStep(url);
+    }
+
+    console.log(x);
+
   }
 
 }

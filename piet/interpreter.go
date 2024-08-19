@@ -27,6 +27,13 @@ ctx context.Context
 eventFuncs map[string]func(string)
 }
 
+type DebugInfo struct {
+	Dp DpDir
+	Cc CCDir
+	Pos image.Point
+	Stack Stack
+}
+
 func (in *Interpreter) Run() {
 for in.move() {
 }
@@ -39,6 +46,11 @@ for {
 	in.move()
 	in.DebugPrint()
 }
+}
+
+func (in *Interpreter) DebugStep() DebugInfo {
+	in.move()
+	return DebugInfo{Dp: in.dp, Cc: in.cc, Pos: in.pos, Stack: in.Stack}
 }
 
 func (in *Interpreter) DebugPrint() {

@@ -1,24 +1,24 @@
 package piet
 
 type Stack struct {
-	data []int
+	Data []int
 }
 
 func (s Stack) hasAtLeast1() bool {
-	return len(s.data) >= 1
+	return len(s.Data) >= 1
 }
 
 func (s Stack) hasAtLeast2() bool {
-	return len(s.data) >= 2
+	return len(s.Data) >= 2
 }
 
 func (s *Stack) push(n int) {
-	s.data = append(s.data, n)
+	s.Data = append(s.Data, n)
 }
 
 func (s *Stack) pop() (n int) {
 	if s.hasAtLeast1() {
-		n, s.data = s.data[len(s.data)-1], s.data[0:len(s.data)-1]
+		n, s.Data = s.Data[len(s.Data)-1], s.Data[0:len(s.Data)-1]
 	}
 	return
 }
@@ -95,8 +95,8 @@ func (s *Stack) greater() {
 
 func (s *Stack) duplicate() {
 	if s.hasAtLeast1() {
-		top := s.data[len(s.data)-1]
-		s.data = append(s.data, top)
+		top := s.Data[len(s.Data)-1]
+		s.Data = append(s.Data, top)
 	}
 }
 
@@ -106,7 +106,7 @@ func (s *Stack) roll() {
 	}
 
 	numRolls, depth := s.pop(), s.pop()
-	if depth < 0 || depth >= len(s.data) {
+	if depth < 0 || depth >= len(s.Data) {
 		// Undo.
 		s.push(depth)
 		s.push(numRolls)
@@ -118,11 +118,11 @@ func (s *Stack) roll() {
 	}
 
 	for r := 0; r < numRolls; r++ {
-		index := len(s.data) - depth
-		val := s.data[len(s.data)-1]
-		for i := len(s.data) - 1; i > index; i-- {
-			s.data[i] = s.data[i-1]
+		index := len(s.Data) - depth
+		val := s.Data[len(s.Data)-1]
+		for i := len(s.Data) - 1; i > index; i-- {
+			s.Data[i] = s.Data[i-1]
 		}
-		s.data[index] = val
+		s.Data[index] = val
 	}
 }

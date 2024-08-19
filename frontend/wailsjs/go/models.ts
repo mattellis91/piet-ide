@@ -15,3 +15,20 @@ export namespace main {
 
 }
 
+export namespace piet {
+	
+	export class DebugInfo {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new DebugInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
+
+}
+

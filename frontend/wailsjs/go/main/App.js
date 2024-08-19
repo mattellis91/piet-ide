@@ -6,6 +6,14 @@ export function CharOut(arg1) {
   return window['go']['main']['App']['CharOut'](arg1);
 }
 
+export function DebugStep(arg1) {
+  return window['go']['main']['App']['DebugStep'](arg1);
+}
+
+export function EmitInterpreterState() {
+  return window['go']['main']['App']['EmitInterpreterState']();
+}
+
 export function GetCurrentFile() {
   return window['go']['main']['App']['GetCurrentFile']();
 }
@@ -40,6 +48,10 @@ export function SetCurrentFile(arg1, arg2) {
 
 export function WriteImage(arg1) {
   return window['go']['main']['App']['WriteImage'](arg1);
+}
+
+export function WriteImageAndDebug(arg1) {
+  return window['go']['main']['App']['WriteImageAndDebug'](arg1);
 }
 
 export function WriteImageAndRun(arg1) {

@@ -20,6 +20,7 @@ import (
 type App struct {
 	ctx context.Context
 	CurrentFile
+	interpreter *piet.Interpreter
 }
 
 type CurrentFile struct {
@@ -53,21 +54,57 @@ func (a *App) NumOut(val string) {
 	runtime.EventsEmit(a.ctx, "numOut", val)
 }
 
+func (a *App) EmitInterpreterState() {
+	runtime.EventsEmit(a.ctx, "debugStep", a.interpreter)
+}
+
 func (a *App) WriteImageAndRun(dataUrl string) bool {
 	path := a.WriteImage(dataUrl)
 
-	eventFuncs := map[string]func(string) {
+	eventFuncs := map[string]func(string){
 		"charOut": a.CharOut,
-		"numOut": a.NumOut,
+		"numOut":  a.NumOut,
 	}
 
-	if(path != "") {
+	if path != "" {
 		im := openImageFromPath(path)
 		in := piet.New(im, eventFuncs)
+		a.interpreter = &in
 		in.Run()
 	}
 
 	return true
+}
+
+func (a *App) WriteImageAndDebug(dataUrl string) piet.DebugInfo {
+	path := a.WriteImage(dataUrl)
+
+	eventFuncs := map[string]func(string){
+		"charOut": a.CharOut,
+		"numOut":  a.NumOut,
+	}
+
+	if path != "" {
+		im := openImageFromPath(path)
+		in := piet.New(im, eventFuncs)
+		a.interpreter = &in
+		x := a.interpreter.DebugStep()
+		runtime.EventsEmit(a.ctx, "debugStep", x)
+		return x
+	}
+
+	panic("failed to write image to file")
+}
+
+func (a *App) DebugStep(dataUrl string) piet.DebugInfo {
+	if a.interpreter != nil {
+		x := a.interpreter.DebugStep()
+		fmt.Println(x)
+		runtime.EventsEmit(a.ctx, "debugStep", x)
+		return x
+	} else {
+		panic("failed to write image to file")
+	}
 }
 
 func (a *App) WriteImage(dataUrl string) string {
@@ -120,7 +157,7 @@ func (a *App) OpenImage() string {
 	return dataurl.EncodeBytes(buf.Bytes())
 }
 
-func openImageFromPath(path string) image.Image{
+func openImageFromPath(path string) image.Image {
 	f, err := os.Open(path)
 
 	if err != nil {
