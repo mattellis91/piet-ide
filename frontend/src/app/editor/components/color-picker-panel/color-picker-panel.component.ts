@@ -16,14 +16,16 @@ export class ColorPickerPanelComponent implements OnInit {
     })  
   }
 
-  getDpDirectionClass(dpDir:{x:number, y:number}):string {
-    if(dpDir.x === 1 && dpDir.y === 0) {
+  getDpDirectionClass(dpDir:{X:number, Y:number}):string {
+    console.log("dp dir");
+    console.log(dpDir)
+    if(dpDir.X === 1 && dpDir.Y === 0) {
       return "pi-arrow-right"
-    } if(dpDir.x === -1 && dpDir.y === 0) {
+    } if(dpDir.X === -1 && dpDir.Y === 0) {
       return "pi-arrow-left"
-    } if(dpDir.x === 0 && dpDir.y === 1) {
+    } if(dpDir.X === 0 && dpDir.Y === 1) {
       return "pi-arrow-down"
-    } if(dpDir.x === 0 && dpDir.y === -1) {
+    } if(dpDir.X === 0 && dpDir.Y === -1) {
       return "pi-arrow-up"
     }
     return ""
