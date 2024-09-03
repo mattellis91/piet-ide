@@ -42,7 +42,6 @@ export class Interpreter {
     
     constructor(pixelData: string[][]) {
         this.pixelData = pixelData;
-        console.log(this.pixelData)
     }
 
     static setPalletCommands(currentColor:string, commands: Color[]) {

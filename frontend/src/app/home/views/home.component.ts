@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit{
         this.recentFiles = aJSON.files
         this.recentFolders = aJSON.folders
         this.help = aJSON.help
-        console.log(aJSON)
       } catch(e) {
         console.log("failed to load recent files")
       }
@@ -54,9 +53,6 @@ export class HomeComponent implements OnInit{
   }
 
   submitDialog() {
-    console.log(this.newFileWidth);
-    console.log(this.newFileHeight);
-
     const data:Pixel[][] = [];
 
     for(let i = 0; i < this.newFileHeight; i++) {

@@ -12,13 +12,10 @@ export class ColorPickerPanelComponent implements OnInit {
   ngOnInit(): void {
     EventsOn("debugStep", (data) => {
       this.debugState = data;
-      console.log(this.debugState);
     })  
   }
 
   getDpDirectionClass(dpDir:{X:number, Y:number}):string {
-    console.log("dp dir");
-    console.log(dpDir)
     if(dpDir.X === 1 && dpDir.Y === 0) {
       return "pi-arrow-right"
     } if(dpDir.X === -1 && dpDir.Y === 0) {

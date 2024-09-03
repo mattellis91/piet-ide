@@ -12,12 +12,10 @@ export class EditorComponent implements OnInit{
 
   ngOnInit(): void {
     EventsOn("charOut", (x) => {
-      console.log("Char out")
       this.output += x;
     }) 
 
     EventsOn("numOut", (x) => {
-      console.log("Num out")
       this.output += x;
     });
   }

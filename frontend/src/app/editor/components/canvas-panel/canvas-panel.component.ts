@@ -44,18 +44,11 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     this.pixelsWide = this.currentFile!.Width;
     this.pixelsHigh = this.currentFile!.Height;
 
-    console.log(this.pixelsWide);
-    console.log(this.pixelsHigh)
-
     this.initGrid();
 
     EventsOn("debugStep", (data) => {
       this.debugState = data;
-      console.log(this.debugState.Pos)
     });
-
-    
-    EventsOn("test", (x) => console.log(x))
   }
 
   ngAfterViewInit() {
@@ -120,8 +113,6 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
         this.pixels[i][j] = currentPix && !this.isNullPixel(currentPix) ? this.editorService.rgbToHex(currentPix.r, currentPix.g, currentPix.b).toLowerCase() : '#fff';
       }
     }
-
-    console.log(this.pixels)
   }
 
   renderLoop() {
@@ -221,7 +212,6 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
   }
 
   handleRunInterpreter() {
-    console.log(this.pixels);
     const imageCanvas = document.createElement('canvas');
     const imageCanvasCtx = imageCanvas.getContext('2d');
     imageCanvas.width = this.pixelsWide;
@@ -236,13 +226,11 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
       }
     }
     const url = imageCanvas.toDataURL();
-    console.log(url);
     WriteImageAndRun(url);
 
   }
 
   async handleDebugInterpreter() {
-    console.log(this.pixels);
     const imageCanvas = document.createElement('canvas');
     const imageCanvasCtx = imageCanvas.getContext('2d');
     imageCanvas.width = this.pixelsWide;
@@ -257,7 +245,6 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
       }
     }
     const url = imageCanvas.toDataURL();
-    console.log(url);
     let x;
     if(!this.debugging) {
       x = await WriteImageAndDebug(url)
@@ -265,9 +252,6 @@ export class CanvasPanelComponent  implements OnInit, AfterViewInit {
     } else {
       x = await DebugStep(url);
     }
-
-    console.log(x);
-
   }
 
 }

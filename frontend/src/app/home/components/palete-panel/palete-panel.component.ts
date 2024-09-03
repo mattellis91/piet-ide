@@ -118,7 +118,6 @@ export class PaletePanelComponent {
   constructor(private editorService: EditorService) { }
 
   setCommandColor(command:Color) {
-    console.log(command);
     this.editorService.selectedColor = command.hex;
     this.selectedColor = command.hex;
 
